@@ -1,7 +1,7 @@
 # ISW_G5
 ### Repositorio del grupo Numero 5
 
-#### >Integrantes del grupo (Legajo, Apellido y Nombre, Usuario GitHub):
+#### Integrantes del grupo (Legajo, Apellido y Nombre, Usuario GitHub):
 >
 >79873, Barbarán Gonzalo Manuel, gonzalobarbaran;
 >
