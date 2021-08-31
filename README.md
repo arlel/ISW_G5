@@ -3,16 +3,17 @@
 
 #### Integrantes del grupo (Legajo, Apellido y Nombre, Usuario GitHub):
 >
->79873, Barbarán Gonzalo Manuel, gonzalobarbaran;
 >
->79332, Lenta Ariel, arlel;
+>79873, Barbarán Gonzalo Manuel, gonzalobarbaran
 >
->80489, Leszezyñski Sebastián, seseseflip; 
+>79332, Lenta Ariel, arlel
 >
->79120, Luengo Ackermann Benjamín, BenjaminLuengoAckermann;
+>80489, Leszezyñski Sebastián, seseseflip
 >
->78880, Neschisi Carlos Joaquín, Joaquin-N;
+>79120, Luengo Ackermann Benjamín, BenjaminLuengoAckermann
 >
->78500, Rostagno Leandro, lrostagno;
+>78880, Neschisi Carlos Joaquín, Joaquin-N
+>
+>78500, Rostagno Leandro, lrostagno
 
 
