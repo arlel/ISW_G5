@@ -31,7 +31,7 @@ def nuevo_pedido():
 @app.route('/ubicaciones/getCiudades')
 def mostrar_ciudades():
     mapc = gestor_ciudades.get_ciudades()
-    return jsonify(mapc)
+    return jsonify(ciudades=mapc)
 
 # Pruebas:
 # Json
