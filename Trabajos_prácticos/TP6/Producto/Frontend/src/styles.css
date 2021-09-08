@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+body{
+  background-color: #7400B8;
+}
+
+#divBody {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+  }
+
 @import "~bootstrap/dist/css/bootstrap.min.css";
