@@ -1,0 +1,209 @@
+
+
+.aboutus-area {
+    padding-top:120px;
+     padding-bottom:120px;
+}
+/*-- aboutus Image --*/
+.aboutus-image {
+  margin-right: 52px;
+  width: 318px; }
+  @media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .aboutus-image {
+      margin-right: 35px;
+      width: 345px; } }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .aboutus-image {
+      margin-bottom: 30px;
+      float: none; } }
+  @media only screen and (max-width: 767px) {
+    .aboutus-image {
+      margin-bottom: 30px;
+      margin-right: 0;
+      float: none;
+      width: auto; } }
+  .aboutus-image img {
+    width: 100%; }
+
+/*-- aboutus Content --*/
+.aboutus-content h1 {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 40px;
+  margin-bottom: 2px; }
+  @media only screen and (max-width: 479px) {
+    .aboutus-content h1 {
+      font-size: 30px;
+      line-height: 30px; } }
+  .aboutus-content h1 span {
+    color: #7400B8; }
+
+    
+.aboutus-content h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #9b9b9b;
+  margin-bottom: 23px; }
+
+.aboutus-content p {
+  font-size: 16px;
+  line-height: 27px; }
+  
+ /*-- counter --*/
+.counter {
+  border: 1px solid #eeeeee;
+  margin-top: 32px;
+  float: left;
+  width: 100%; }
+  .counter .single-counter {
+    float: left;
+    width: 25%;
+    padding: 28px 15px 28px; }
+    @media only screen and (max-width: 767px) {
+      .counter .single-counter {
+        width: 50%; }
+        .counter .single-counter:nth-child(3) {
+          border-top: 1px solid #eeeeee;
+          border-left: 0px solid #eeeeee; }
+        .counter .single-counter:nth-child(4) {
+          border-top: 1px solid #eeeeee; } }
+    .counter .single-counter + .single-counter {
+      border-left: 1px solid #eeeeee; }
+    .counter .single-counter h2 {
+      font-size: 30px;
+      color: #4EA8DE;
+      line-height: 24px;
+      font-family: "Open Sans", sans-serif;
+      margin-bottom: 8px; }
+    .counter .single-counter p {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 0;
+      color: #8f8f8f; }
+
+
+
+      
+
+      
+
+
+
+
+
+/** OUR TEAM SECTION **/
+
+.row.heading h2 {
+    color: #80FFDB;
+    font-size: 52.52px;
+    line-height: 155px;
+    font-weight: 800;
+    text-align: center;
+    margin: 0 0 40px;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+}
+ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.heading.heading-icon {
+    display: block;
+}
+.padding-lg {
+	display: block;
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+.practice-area.padding-lg {
+    padding-bottom: 55px;
+    padding-top: 55px;
+}
+.practice-area .inner{ 
+     border:1px solid #999999; 
+	 text-align:center; 
+	 margin-bottom:28px; 
+	 padding:40px 25px;
+}
+.our-webcoderskull .cnt-block:hover {
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    border: 0;
+}
+.practice-area .inner h3{ 
+    color:#3c3c3c; 
+	font-size:24px; 
+	font-weight:500;
+	font-family: 'Poppins', sans-serif;
+	padding: 10px 0;
+}
+.practice-area .inner p{ 
+    font-size:14px; 
+	line-height:22px; 
+	font-weight:400;
+}
+.practice-area .inner img{
+	display:inline-block;
+}
+
+
+.our-webcoderskull{
+  background-color: #5E60CE;
+  
+}
+.our-webcoderskull .cnt-block{ 
+   float:left; 
+   width:100%; 
+   background:#fff; 
+   padding:30px 20px; 
+   text-align:center; 
+   border:2px solid #d5d5d5;
+   margin: 0 0 28px;
+}
+.our-webcoderskull .cnt-block figure{
+   width:148px; 
+   height:148px; 
+   border-radius:100%; 
+   display:inline-block;
+   margin-bottom: 15px;
+}
+.our-webcoderskull .cnt-block img{ 
+   width:148px; 
+   height:148px; 
+   border-radius:100%; 
+}
+.our-webcoderskull .cnt-block h3{ 
+   color:#2a2a2a; 
+   font-size:18px; 
+   font-weight:500; 
+   padding:6px 0;
+   text-transform:uppercase;
+}
+.our-webcoderskull .cnt-block h3 a{
+  text-decoration:none;
+	color:#2a2a2a;
+}
+.our-webcoderskull .cnt-block h3 a:hover{
+	color:#337ab7;
+}
+.our-webcoderskull .cnt-block p{ 
+   color:#2a2a2a; 
+   font-size:13px; 
+   line-height:20px; 
+   font-weight:400;
+}
+.our-webcoderskull .cnt-block .follow-us{
+	margin:20px 0 0;
+}
+.our-webcoderskull .cnt-block .follow-us li{ 
+    display:inline-block; 
+	width:auto; 
+	margin:0 5px;
+}
+.our-webcoderskull .cnt-block .follow-us li .fa{ 
+   font-size:24px; 
+   color:#767676;
+}
+.our-webcoderskull .cnt-block .follow-us li .fa:hover{ 
+   color:#025a8e;
+}
