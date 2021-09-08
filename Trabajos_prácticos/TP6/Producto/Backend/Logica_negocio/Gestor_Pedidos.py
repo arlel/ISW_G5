@@ -9,5 +9,7 @@ class Gestor_pedidos:
         dire = json["direccion"]
         efectivo = json["efectivo"]
         monto = json["monto_total"]
-        pedido = Pedido(desc, img, com, dire, efectivo, monto)
+        fh = json["fecha_hora"]
+        # validaciones
+        pedido = Pedido(desc, img, com, dire, efectivo, monto, fh)
         return pedido.get_id()

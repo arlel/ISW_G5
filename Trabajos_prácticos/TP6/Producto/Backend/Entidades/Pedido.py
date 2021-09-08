@@ -13,14 +13,14 @@ class Pedido:
     # año, mes, dia, hora, minuto, segundo
     fecha_hora = datetime(1, 1, 1, 0, 0, 0)
 
-    def __init__(self, desc, img, com, dire, efect, monto):
+    def __init__(self, desc, img, com, dire, efect, monto, fh):
         self.descripcion = desc
         self.imagen = img
         self.comercio = com
         self.direccion = dire
         self.efectivo = efect
         self.monto_total = monto
-        self.fecha_hora = datetime.today()
+        self.fecha_hora = fh
 
     def get_id(self):
         return self.id
