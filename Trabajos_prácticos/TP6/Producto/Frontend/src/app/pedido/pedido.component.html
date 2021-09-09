@@ -1,4 +1,4 @@
-<h3>{{Titulo}}</h3>
+<h3> <i class="fas fa-shopping-cart"></i> {{Titulo}}</h3>
 <form name="FormPedido" [formGroup]="FormPedido">
     <div class="pedido-area">
         
@@ -50,6 +50,22 @@
                   />
                 </div>
             </div>
+            <i>&nbsp;</i>
+
+            <div class="form-group row">
+              <label class="col-form-label col-sm-2 offset-sm-2">
+                Entrega del Pedido:
+              </label>
+              <div class="col-sm-4">
+                <input type="datetime-local" id="FechaEntrega">
+              </div>
+              <div class="col-sm-4">
+                <input type="radio" id="html" name="fav_language" value="HTML">
+                <label class="col-form-label col-sm-4 offset-sm-1">
+                  Lo antes posible
+                </label>             
+              </div>
+          </div>
         
 
         <div class="row justify-content-center">
