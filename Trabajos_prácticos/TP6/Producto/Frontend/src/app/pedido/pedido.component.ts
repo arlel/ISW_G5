@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-pedido',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PedidoComponent implements OnInit {
 
-  constructor() { }
+  Titulo = "Nuevo Pedido";
+
+  FormPedido: FormGroup;
+
+
+  constructor(
+    public formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
+    this.FormPedido = this.formBuilder.group({
+      Descripcion: [null],
+      Domicilio: [null],
+      Comercio: [null]
+
+    });
   }
 
 }

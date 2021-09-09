@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { PedidoComponent } from './pedido/pedido.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule.forRoot([
       { path: '', redirectTo: '/pedido', pathMatch: 'full' },

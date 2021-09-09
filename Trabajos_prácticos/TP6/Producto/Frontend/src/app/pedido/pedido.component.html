@@ -1,1 +1,63 @@
-<p>pedido works!</p>
+<h3>{{Titulo}}</h3>
+<form name="FormPedido" [formGroup]="FormPedido">
+    <div class="pedido-area">
+        
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 offset-sm-2">
+                  Tu Domicilio:
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    id="inputDomicilio"
+                    class="form-control text-uppercase"
+                    name="Domicilio"
+                    formControlName="Domicilio"
+                  />
+                </div>
+            </div>
+            <i>&nbsp;</i>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 offset-sm-2">
+                  Describi el producto:
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    id="inputDescripcion"
+                    class="form-control text-uppercase"
+                    name="Descripcion"
+                    formControlName="Descripcion"
+                  />
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <i>&nbsp;</i>
+                <button id="btnFoto" type="button" class="btn btn-primary col-sm-2 offset-sm-2">
+                    <span class="fas fa-image"> </span> Añadir foto (opcional)
+                </button>
+                <i>&nbsp;</i>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 offset-sm-2">
+                  Domicilio del comercio:
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    id="inputComercio"
+                    class="form-control text-uppercase"
+                    name="Comercio"
+                    formControlName="Comercio"
+                  />
+                </div>
+            </div>
+        
+
+        <div class="row justify-content-center">
+            <i>&nbsp;</i>
+            <button type="button" class="btn btn-primary">
+                <span class="fas fa-plus"> </span> Agregar
+            </button>
+            &nbsp;
+        </div>
+    </div>
+</form>

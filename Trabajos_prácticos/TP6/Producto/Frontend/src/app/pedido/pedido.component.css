@@ -1,3 +1,35 @@
 p{
     color: #72EFDD;
 }
+
+label{
+    color: #72EFDD;
+}
+
+h3{
+    color: #72EFDD;
+}
+
+.btn-primary {
+    color: #5E60CE;
+    background-color: #72EFDD;
+    border-color: #000000;
+    width: 125px;
+  }
+
+.pedido-area {
+    padding-top:120px;
+    padding-bottom:120px;
+}
+
+form{
+    background-color: #5E60CE;
+}
+
+#inputDescripcion{
+    padding-top: 75px;
+}
+
+#btnFoto{
+    width: 150px;
+}
