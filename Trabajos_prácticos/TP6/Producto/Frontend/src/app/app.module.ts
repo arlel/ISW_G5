@@ -11,15 +11,23 @@ import { PedidoComponent } from './pedido/pedido.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AgmCoreModule } from '@agm/core';
+import { GMapsComponent } from './g-maps/g-maps.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     PedidoComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    GMapsComponent,
   ],
   imports: [
     BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDUpJIfYIGj2XYFZsmqdyQygHStR0cPuuA',
+      libraries: ['places']
+    }),
     AppRoutingModule,
     ReactiveFormsModule,
     CommonModule,
