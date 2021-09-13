@@ -33,6 +33,7 @@ def mostrar_ciudades():
     mapc = gestor_ciudades.get_ciudades()
     return jsonify(ciudades=mapc)
 
+
 # Pruebas:
 # Json
 @app.route('/pedidos/prueba')
