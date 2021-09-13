@@ -24,6 +24,8 @@ h3{
 
 form{
     background-color: #5E60CE;
+    padding-left:30px;
+    padding-right:30px;
 }
 
 #inputDescripcion{

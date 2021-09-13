@@ -12,12 +12,13 @@ import { Pedido } from '../models/pedido';
 export class PedidoComponent implements OnInit {
 
   Titulo = "Nuevo Pedido";
-  Direccion = new Direccion();
+  direccion = new Direccion();
   Pedidos = [];
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
+  Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
 
 
 
@@ -45,6 +46,7 @@ export class PedidoComponent implements OnInit {
 
   ngOnInit(): void {
     this.FormPedido = this.formBuilder.group({
+      Ciudad:[null],
       Descripcion: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(240)]], //minimo 5 caracteres maximo 255
       Domicilio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]],
       Comercio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]] 
@@ -78,6 +80,8 @@ export class PedidoComponent implements OnInit {
   }
   AgregarPedido(){
     if (this.FormPedido.invalid) {
+      
+      
       alert("No puede proceder al carrito debido a que existen errores")
       return;
     }
@@ -116,6 +120,10 @@ export class PedidoComponent implements OnInit {
 
   SelecFormaIngresoDomicilio(opcion){
     this.FormaIngresoDomicilio = opcion;
+
+    if (this.FormaIngresoDomicilio =='G'){
+      this.FormPedido.controls['Comercio'].setValue('asdasdasds');
+    }
 
   }
 
@@ -175,11 +183,10 @@ export class PedidoComponent implements OnInit {
     this.Opcion = "";
     this.Entrega = "";
     this.FormaIngresoDomicilio = "";
-
-
-
-
-
   }
 
+
+  setDireccion($event){
+    this.direccion = $event
+  }
 }

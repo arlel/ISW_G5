@@ -1,8 +1,23 @@
+
 <!-- FORM PEDIDO-->
 
 <h3> <i class="fas fa-shopping-cart"></i> {{Titulo}}</h3>
 <form name="FormPedido" [formGroup]="FormPedido" *ngIf="Accion == 'N'">
   <i>&nbsp;</i>
+
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Ciudad:
+    </label>
+      <div class="col-sm-2">
+        <p>
+          <select name="miselect">
+          <option [value]="item" *ngFor="let item of Ciudades">{{item}}</option>
+          </select>
+          </p>
+
+    </div>
+  </div>
 
   <!-- Domicilio -->
   <div class="form-group row">
@@ -112,7 +127,7 @@ Dato requerido.
 </div>
 <div class="validacion"
 *ngIf="(FormPedido.controls.Comercio.touched || submitted) 
-     && (FormPedido.controls.Comercio.errors?.minlength || FormPedido.controls.Comercio.errors?.maxlength) ">
+     && (FormPedido.controls.Comercio.errors?.minlength || FormPedido.controls.Comercio.errors?.maxlength)">
 Dato texto, 5 a 240 caracteres.
 </div>
     </div>
@@ -121,7 +136,9 @@ Dato texto, 5 a 240 caracteres.
   <!-- MAPS -->
   <div *ngIf="FormaIngresoDomicilio == 'G'">  
    <app-g-maps (addrChange)="setDireccion($event)"> Direccion </app-g-maps>
+
 </div>
+
 
 <!-- ENTREGA PEDIDO -->
 
