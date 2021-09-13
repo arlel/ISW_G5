@@ -1,9 +1,13 @@
+<!-- FORM PEDIDO-->
+
 <h3> <i class="fas fa-shopping-cart"></i> {{Titulo}}</h3>
 <form name="FormPedido" [formGroup]="FormPedido" *ngIf="Accion == 'N'">
   <i>&nbsp;</i>
+
+  <!-- Domicilio -->
   <div class="form-group row">
     <label class="col-form-label col-sm-2 offset-sm-2">
-      Tu Domicilio:
+      Domicilio de Entrega:
     </label>
     <div class="col-sm-4">
       <input
@@ -11,9 +15,24 @@
         class="form-control text-uppercase"
         name="Domicilio"
         formControlName="Domicilio"
+        [ngClass]="{'is-invalid': (FormPedido.controls.Domicilio.touched || submitted)  
+          && FormPedido.controls.Domicilio.errors}"
       />
+
+      <div class="validacion" *ngIf="(FormPedido.controls.Domicilio.touched || submitted) 
+                      && FormPedido.controls.Domicilio.errors?.required">
+          Dato requerido.
+        </div>
+        <div class="validacion"
+          *ngIf="(FormPedido.controls.Domicilio.touched || submitted) 
+                     && (FormPedido.controls.Domicilio.errors?.minlength || FormPedido.controls.Domicilio.errors?.maxlength) ">
+          Dato texto, 5 a 240 caracteres.
+        </div>
+
     </div>
   </div>
+
+  <!-- Descripcion -->
   <i>&nbsp;</i>
   <div class="form-group row">
     <label class="col-form-label col-sm-2 offset-sm-2">
@@ -25,7 +44,19 @@
         class="form-control text-uppercase"
         name="Descripcion"
         formControlName="Descripcion"
+        [ngClass]="{'is-invalid': (FormPedido.controls.Descripcion.touched || submitted)  
+          && FormPedido.controls.Descripcion.errors}"
       />
+
+      <div class="validacion" *ngIf="(FormPedido.controls.Descripcion.touched || submitted) 
+      && FormPedido.controls.Descripcion.errors?.required">
+Dato requerido.
+</div>
+<div class="validacion"
+*ngIf="(FormPedido.controls.Descripcion.touched || submitted) 
+     && (FormPedido.controls.Descripcion.errors?.minlength || FormPedido.controls.Descripcion.errors?.maxlength) ">
+Dato texto, 5 a 240 caracteres.
+</div>
     </div>
   </div>
             
@@ -43,34 +74,73 @@
       <i>&nbsp;</i>
   </div>
 
+
+  <!-- COMERCIO ELECCION -->
   <div class="form-group row">
     <label class="col-form-label col-sm-2 offset-sm-2">
-        Domicilio del comercio:
-    </label>
-    <div class="col-sm-4">
+      Domicilio del comercio:
+  </label>
+    <div class="col-form-label col-sm-1">
+      <input id="manual" type="radio" name="radio_domicilio" (click)="SelecFormaIngresoDomicilio('M')">
+      &nbsp;
+      <label class="col-sm-3 offset-sm-0"> Ingresar Domicilio </label>
+    </div>
+     <div class="col-form-label col-sm-4 offset-sm-1">
+      <input id="gmaps" type="radio" name="radio_domicilio" (click)="SelecFormaIngresoDomicilio('G')">
+      &nbsp;
+      <label class="col-sm-3 offset-sm-0"> Elegir en el Mapa </label>
+    </div>
+  </div>
+
+
+  <!-- COMERCIO MANUAL -->
+    <div class="col-sm-4 offset-sm-4">
       <input
         id="inputComercio"
         class="form-control text-uppercase"
         name="Comercio"
+        placeholder="Ingrese el Domicilio del Comercio"
         formControlName="Comercio"
+        [ngClass]="{'is-invalid': (FormPedido.controls.Comercio.touched || submitted)  
+          && FormPedido.controls.Comercio.errors}
+        "*ngIf="FormaIngresoDomicilio == 'M'"
+
       />
+      <div class="validacion" *ngIf="(FormPedido.controls.Descripcion.touched || submitted) 
+      && FormPedido.controls.Descripcion.errors?.required">
+Dato requerido.
+</div>
+<div class="validacion"
+*ngIf="(FormPedido.controls.Comercio.touched || submitted) 
+     && (FormPedido.controls.Comercio.errors?.minlength || FormPedido.controls.Comercio.errors?.maxlength) ">
+Dato texto, 5 a 240 caracteres.
+</div>
     </div>
-  </div>
   <i>&nbsp;</i>
+
+  <!-- MAPS -->
+  <div *ngIf="FormaIngresoDomicilio == 'G'">  
+   <app-g-maps (addrChange)="setDireccion($event)"> Direccion </app-g-maps>
+</div>
+
+<!-- ENTREGA PEDIDO -->
 
   <div class="form-group row">
     <label class="col-form-label col-sm-2 offset-sm-2">
       Entrega del Pedido:
     </label>
-    <div class="col-sm-4">
-      <input type="datetime-local" id="FechaEntrega">
-    </div>
-    <div class="col-sm-4">
-      <input type="checkbox" id="html" name="fav_language" value="HTML">
+    <div class="col-form-label col-sm-1">
+      <input id="fecha" type="radio" name="radio_entrega" (click)="SelecFormaEntrega('F')">
       &nbsp;
-      <label class="col-form-label">
-        Lo antes posible
-      </label>             
+      <label class="col-sm-3 offset-sm-0"> Ingresar fecha </label>
+    </div>
+    <div class="col-sm-2">
+      <input type="datetime-local" id="FechaEntrega" *ngIf="Entrega == 'F'">
+    </div>
+    <div class="col-form-label col-sm-4 offset-sm-1">
+      <input id="inmediato" type="radio" name="radio_entrega" (click)="SelecFormaEntrega('I')">
+      &nbsp;
+      <label class="col-sm-3 offset-sm-0"> Lo antes posible</label>
     </div>
   </div>
         
@@ -167,6 +237,8 @@
       <label class="col-sm-3 offset-sm-0"> Tarjeta</label>
     </div>
   </div>
+  <!-- MONTO -->
+  <form name="FormPagoEfectivo" [formGroup]="FormPagoEfectivo" *ngIf="Opcion == 'E'">
 
   <div class="form-group row" *ngIf="Opcion =='E'">
     <label class="col-form-label col-sm-3 offset-sm-2">
@@ -178,10 +250,27 @@
         class="form-control text-uppercase"
         name="Monto"
         formControlName="Monto"
+        [ngClass]="{'is-invalid': (FormPagoEfectivo.controls.Monto.touched || submittedPago)  
+          && FormPagoEfectivo.controls.Monto.errors}"
       />
+
+      <span class="text-danger" *ngIf="(FormPagoEfectivo.controls.Monto.touched || submittedPago) 
+      && FormPagoEfectivo.controls.Monto.errors?.required">
+        Dato requerido.
+      </span>
+      <span class="text-danger"
+        *ngIf="(FormPagoEfectivo.controls.Monto.touched || submittedPago) 
+            && (FormPagoEfectivo.controls.Monto.errors?.pattern) ">
+        Dato numerico, mayor a 0.
+      </span>
     </div>
   </div>
 
+</form>
+
+<form name="FormPagoTarjeta" [formGroup]="FormPagoTarjeta" *ngIf="Opcion == 'T'">
+
+  <!-- NUMERO TARJETA -->
   <div class="form-group row" *ngIf="Opcion =='T'">
     <span class="col-form-label fas fa-cc-visa " style="color: #72EFDD;"> </span> 
     <label class="col-form-label col-sm-3 offset-sm-2">
@@ -193,11 +282,24 @@
         class="form-control text-uppercase"
         name="Tarjeta"
         formControlName="Tarjeta"
+        [ngClass]="{'is-invalid': (FormPagoTarjeta.controls.Tarjeta.touched || submittedPago)  
+          && FormPagoTarjeta.controls.Tarjeta.errors}"
       />
+
+      <span class="text-danger" *ngIf="(FormPagoTarjeta.controls.Tarjeta.touched || submittedPago) 
+      && FormPagoTarjeta.controls.Tarjeta.errors?.required">
+        Dato requerido.
+      </span>
+      <span class="text-danger"
+        *ngIf="(FormPagoTarjeta.controls.Tarjeta.touched || submittedPago) 
+            && (FormPagoTarjeta.controls.Tarjeta.errors?.pattern)">
+        Revise los datos ingresados. La tarjeta debe ser VISA. 
+      </span>
     </div>
   </div>
   <i>&nbsp;</i>
 
+  <!-- TITULAR -->
   <div class="form-group row" *ngIf="Opcion =='T'">
     <label class="col-form-label col-sm-3 offset-sm-2">
       Nombre y apellido del titular:
@@ -208,34 +310,78 @@
         class="form-control text-uppercase"
         name="Titular"
         formControlName="Titular"
+        [ngClass]="{'is-invalid': (FormPagoTarjeta.controls.Titular.touched || submittedPago)  
+          && FormPagoTarjeta.controls.Titular.errors}"
       />
+      <span class="text-danger" *ngIf="(FormPagoTarjeta.controls.Titular.touched || submittedPago) 
+      && FormPagoTarjeta.controls.Titular.errors?.required">
+        Dato requerido.
+      </span>
+      <span class="text-danger"
+        *ngIf="(FormPagoTarjeta.controls.Titular.touched || submittedPago) 
+            && (FormPagoTarjeta.controls.Titular.errors?.minlength || FormPagoTarjeta.controls.Titular.errors?.maxlength)">
+        Revise los datos ingresados. El nombre del titular debe tener mas de 5 caracteres y menos de 24. 
+      </span>
     </div>
   </div>
   <i>&nbsp;</i>
+ 
+  <!-- CVV-->
   <div class="form-group row" *ngIf="Opcion =='T'">
     <label class="col-form-label col-sm-1 offset-sm-2">
       CVV:
     </label>
-    <div class="col-sm-1">
+    <div class="col-sm-2 offset-sm-2">
       <input
         id="inputCVV"
         class="form-control text-uppercase"
         name="CVV"
         formControlName="CVV"
+        placeholder="Cod. de Seguridad"
+        [ngClass]="{'is-invalid': (FormPagoTarjeta.controls.CVV.touched || submittedPago)  
+          && FormPagoTarjeta.controls.CVV.errors}"
       />
+      <span class="text-danger" *ngIf="(FormPagoTarjeta.controls.CVV.touched || submittedPago) 
+      && FormPagoTarjeta.controls.CVV.errors?.required">
+        Dato requerido.
+      </span>
+      <span class="text-danger"
+        *ngIf="(FormPagoTarjeta.controls.CVV.touched || submittedPago) 
+            && (FormPagoTarjeta.controls.CVV.errors?.pattern)">
+        Revise los datos ingresados. El codigo de seguridad debe tener tres digitos. 
+      </span>
     </div>
+  </div>
+
+  <i>&nbsp;</i>
+
+    <!-- VENC -->
+    <div class="form-group row" *ngIf="Opcion =='T'">
     <label class="col-form-label col-sm-2 offset-sm-2">
       Fecha de vencimiento:
     </label>
-    <div class="col-sm-1">
+    <div class="col-sm-2 offset-sm-1">
       <input
         id="inputVenc"
         class="form-control text-uppercase"
         name="Venc"
+        placeholder="MM/AAAA"
         formControlName="Venc"
+        [ngClass]="{'is-invalid': (FormPagoTarjeta.controls.Venc.touched || submittedPago)  
+          && FormPagoTarjeta.controls.Venc.errors}"
       />
+      <span class="text-danger" *ngIf="(FormPagoTarjeta.controls.Venc.touched || submittedPago) 
+      && FormPagoTarjeta.controls.Tarjeta.errors?.required">
+        Dato requerido.
+      </span>
+      <span class="text-danger"
+        *ngIf="(FormPagoTarjeta.controls.Venc.touched || submittedPago) 
+            && (FormPagoTarjeta.controls.Venc.errors?.pattern)">
+        Revise los datos ingresados. La fecha debe ser mayor al dia de hoy 
+      </span>
     </div>
   </div>
+</form>
   <i>&nbsp;</i>
 
   <div class="row justify-content-center" *ngIf="Opcion != ''">
