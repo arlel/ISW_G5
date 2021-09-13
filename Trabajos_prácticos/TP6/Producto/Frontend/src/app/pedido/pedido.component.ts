@@ -12,13 +12,15 @@ import { Pedido } from '../models/pedido';
 export class PedidoComponent implements OnInit {
 
   Titulo = "Nuevo Pedido";
-  direccion = new Direccion();
+  direccion = new Direccion();//direccion del local
+  domicilio = new Direccion();//direccion del cliente
   Pedidos = [];
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
+  Ciudad = ""
 
 
 
@@ -48,8 +50,12 @@ export class PedidoComponent implements OnInit {
     this.FormPedido = this.formBuilder.group({
       Ciudad:[null],
       Descripcion: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(240)]], //minimo 5 caracteres maximo 255
-      Domicilio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]],
-      Comercio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]] 
+      CalleDomicilio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]],
+      NumeroDomicilio: [null,  [Validators.required]],
+      ReferenciaDomicilio: [null,  [ Validators.minLength(5), Validators.maxLength(240)]],
+      CalleComercio: [null,  [Validators.required, Validators.minLength(5), Validators.maxLength(240)]],
+      NumeroComercio: [null,  [Validators.required]],
+      ReferenciaComercio: [null,  [ Validators.minLength(5), Validators.maxLength(240)]],
 
     });
 
@@ -86,6 +92,9 @@ export class PedidoComponent implements OnInit {
       return;
     }
     this.Accion = 'C';
+    this.domicilio.Calle = this.FormPedido.value.CalleDomicilio;
+    this.domicilio.Numero = this.FormPedido.value.NumeroDomicilio;
+    this.domicilio.Referencia = this.FormPedido.value.CalleDomicilio;
     var nuevoPed = new Pedido();
     nuevoPed.Domicilio = this.FormPedido.value.Domicilio;
     nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
@@ -120,10 +129,6 @@ export class PedidoComponent implements OnInit {
 
   SelecFormaIngresoDomicilio(opcion){
     this.FormaIngresoDomicilio = opcion;
-
-    if (this.FormaIngresoDomicilio =='G'){
-      this.FormPedido.controls['Comercio'].setValue('asdasdasds');
-    }
 
   }
 
@@ -188,5 +193,12 @@ export class PedidoComponent implements OnInit {
 
   setDireccion($event){
     this.direccion = $event
+    this.FormPedido.controls['CalleComercio'].setValue(this.direccion.Calle);
+    this.FormPedido.controls['NumeroComercio'].setValue(this.direccion.Numero);
+    this.FormPedido.controls['ReferenciaComercio'].setValue(this.direccion.Referencia);
+  }
+
+  selectCiudad(){
+    this.Ciudad = (<HTMLInputElement>document.getElementById("selectCiudad")).value;
   }
 }

@@ -11,7 +11,7 @@
     </label>
       <div class="col-sm-2">
         <p>
-          <select name="miselect">
+          <select id="selectCiudad" name="miselect" (change)="selectCiudad()">
           <option [value]="item" *ngFor="let item of Ciudades">{{item}}</option>
           </select>
           </p>
@@ -24,26 +24,66 @@
     <label class="col-form-label col-sm-2 offset-sm-2">
       Domicilio de Entrega:
     </label>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
       <input
-        id="inputDomicilio"
+        id="inputCalle"
         class="form-control text-uppercase"
-        name="Domicilio"
-        formControlName="Domicilio"
-        [ngClass]="{'is-invalid': (FormPedido.controls.Domicilio.touched || submitted)  
-          && FormPedido.controls.Domicilio.errors}"
+        name="CalleDomicilio"
+        formControlName="CalleDomicilio"
+        placeholder="Calle"
+        [ngClass]="{'is-invalid': (FormPedido.controls.CalleDomicilio.touched || submitted)  
+          && FormPedido.controls.CalleDomicilio.errors}"
       />
 
-      <div class="validacion" *ngIf="(FormPedido.controls.Domicilio.touched || submitted) 
-                      && FormPedido.controls.Domicilio.errors?.required">
+
+
+      <div class="validacion" *ngIf="(FormPedido.controls.CalleDomicilio.touched || submitted) 
+                      && FormPedido.controls.CalleDomicilio.errors?.required">
           Dato requerido.
         </div>
         <div class="validacion"
-          *ngIf="(FormPedido.controls.Domicilio.touched || submitted) 
-                     && (FormPedido.controls.Domicilio.errors?.minlength || FormPedido.controls.Domicilio.errors?.maxlength) ">
+          *ngIf="(FormPedido.controls.CalleDomicilio.touched || submitted) 
+                     && (FormPedido.controls.CalleDomicilio.errors?.minlength || FormPedido.controls.CalleDomicilio.errors?.maxlength) ">
           Dato texto, 5 a 240 caracteres.
         </div>
+        <i>&nbsp;</i>
 
+        <input
+        id="inputNumero"
+        class="form-control text-uppercase"
+        name="NumeroDomicilio"
+        formControlName="NumeroDomicilio"
+        placeholder="Numero"
+        [ngClass]="{'is-invalid': (FormPedido.controls.NumeroDomicilio.touched || submitted)  
+          && FormPedido.controls.NumeroDomicilio.errors}"
+      />
+        
+        <div class="validacion" *ngIf="(FormPedido.controls.NumeroDomicilio.touched || submitted) 
+                      && FormPedido.controls.NumeroDomicilio.errors?.required">
+          Dato requerido.
+        </div>
+
+    </div>
+  </div>
+
+  <i>&nbsp;</i>
+
+  <div class="form-group row">
+    <div class="col-sm-4 offset-sm-4">
+      <input
+        id="inputReferencia"
+        class="form-control text-uppercase"
+        name="ReferenciaDomicilio"
+        formControlName="ReferenciaDomicilio"
+        placeholder="Referencia"
+        [ngClass]="{'is-invalid': (FormPedido.controls.ReferenciaDomicilio.touched || submitted)  
+          && FormPedido.controls.ReferenciaDomicilio.errors}"
+      />
+        <div class="validacion"
+          *ngIf="(FormPedido.controls.ReferenciaDomicilio.touched || submitted) 
+                     && (FormPedido.controls.ReferenciaDomicilio.errors?.minlength || FormPedido.controls.ReferenciaDomicilio.errors?.maxlength) ">
+          Dato texto, 5 a 240 caracteres.
+        </div>
     </div>
   </div>
 
@@ -54,14 +94,16 @@
       Describi el producto:
     </label>
     <div class="col-sm-4">
-      <input
+      <textarea
         id="inputDescripcion"
         class="form-control text-uppercase"
         name="Descripcion"
         formControlName="Descripcion"
         [ngClass]="{'is-invalid': (FormPedido.controls.Descripcion.touched || submitted)  
           && FormPedido.controls.Descripcion.errors}"
-      />
+        rows="4"
+        cols="50"
+      ></textarea>
 
       <div class="validacion" *ngIf="(FormPedido.controls.Descripcion.touched || submitted) 
       && FormPedido.controls.Descripcion.errors?.required">
@@ -109,28 +151,74 @@ Dato texto, 5 a 240 caracteres.
 
 
   <!-- COMERCIO MANUAL -->
+  <div  *ngIf="FormaIngresoDomicilio == 'M'">
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Domicilio de Retiro:
+    </label>
+    <div class="col-sm-2">
+      <input
+        id="inputCalle"
+        class="form-control text-uppercase"
+        name="CalleComercio"
+        formControlName="CalleComercio"
+        placeholder="Calle"
+        [ngClass]="{'is-invalid': FormaIngresoDomicilio == 'M' && ((FormPedido.controls.CalleComercio.touched || submitted)  
+          && FormPedido.controls.CalleComercio.errors)}"
+      />
+
+
+
+      <div class="validacion" *ngIf="(FormPedido.controls.CalleComercio.touched || submitted) 
+                      && FormPedido.controls.CalleComercio.errors?.required">
+          Dato requerido.
+        </div>
+        <div class="validacion"
+          *ngIf="(FormPedido.controls.CalleComercio.touched || submitted) 
+                     && (FormPedido.controls.CalleComercio.errors?.minlength || FormPedido.controls.CalleComercio.errors?.maxlength) ">
+          Dato texto, 5 a 240 caracteres.
+        </div>
+        <i>&nbsp;</i>
+
+        <input
+        id="inputNumero"
+        class="form-control text-uppercase"
+        name="NumeroComercio"
+        formControlName="NumeroComercio"
+        placeholder="Numero"
+        [ngClass]="{'is-invalid': FormaIngresoDomicilio == 'M' && ((FormPedido.controls.NumeroComercio.touched || submitted)  
+          && FormPedido.controls.NumeroComercio.errors)}"
+      />
+        
+        <div class="validacion" *ngIf="(FormPedido.controls.NumeroComercio.touched || submitted) 
+                      && FormPedido.controls.NumeroComercio.errors?.required">
+          Dato requerido.
+        </div>
+
+    </div>
+  </div>
+
+  <i>&nbsp;</i>
+
+  <div class="form-group row">
     <div class="col-sm-4 offset-sm-4">
       <input
-        id="inputComercio"
+        id="inputReferencia"
         class="form-control text-uppercase"
-        name="Comercio"
-        placeholder="Ingrese el Domicilio del Comercio"
-        formControlName="Comercio"
-        [ngClass]="{'is-invalid': (FormPedido.controls.Comercio.touched || submitted)  
-          && FormPedido.controls.Comercio.errors}
-        "*ngIf="FormaIngresoDomicilio == 'M'"
-
+        name="ReferenciaComercio"
+        formControlName="ReferenciaComercio"
+        placeholder="Referencia"
+        [ngClass]="{'is-invalid': FormaIngresoDomicilio == 'M' && ((FormPedido.controls.ReferenciaComercio.touched || submitted)  
+          && FormPedido.controls.ReferenciaComercio.errors)}"
       />
-      <div class="validacion" *ngIf="(FormPedido.controls.Descripcion.touched || submitted) 
-      && FormPedido.controls.Descripcion.errors?.required">
-Dato requerido.
-</div>
-<div class="validacion"
-*ngIf="(FormPedido.controls.Comercio.touched || submitted) 
-     && (FormPedido.controls.Comercio.errors?.minlength || FormPedido.controls.Comercio.errors?.maxlength)">
-Dato texto, 5 a 240 caracteres.
-</div>
+        <div class="validacion"
+          *ngIf="(FormPedido.controls.ReferenciaComercio.touched || submitted) 
+                     && (FormPedido.controls.ReferenciaComercio.errors?.minlength || FormPedido.controls.ReferenciaComercio.errors?.maxlength) ">
+          Dato texto, 5 a 240 caracteres.
+        </div>
     </div>
+  </div>
+</div>
   <i>&nbsp;</i>
 
   <!-- MAPS -->
