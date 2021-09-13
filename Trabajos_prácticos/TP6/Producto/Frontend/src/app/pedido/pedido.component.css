@@ -33,3 +33,11 @@ form{
 #btnFoto{
     width: 150px;
 }
+
+#btnArchivo{
+    color: #72EFDD;
+}
+
+#btnOtro{
+    width: 200px;
+}

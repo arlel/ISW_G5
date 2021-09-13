@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Pedido } from '../models/pedido';
 
 @Component({
   selector: 'app-pedido',
@@ -9,8 +10,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class PedidoComponent implements OnInit {
 
   Titulo = "Nuevo Pedido";
+  Pedidos = [];
+  Accion = "N" //la accion inicial es agregar un nuevo pedido
+  Opcion = "";
 
   FormPedido: FormGroup;
+  FormCarrito: FormGroup;
+  FormPago: FormGroup;
   //   La foto debe tener un maximo de 5MB
   // Ciudades que se pueden elegir son CBA Capital, VCP y Rio Primero
   // Descripcion del pedido min 5 char max 255 char
@@ -30,6 +36,49 @@ export class PedidoComponent implements OnInit {
       Comercio: [null]
 
     });
+
+    this.FormCarrito = this.formBuilder.group({
+      Descripcion: [null], //minimo 5 caracteres maximo 255
+      Domicilio: [null],
+      Comercio: [null]
+
+    });
+
+    this.FormPago = this.formBuilder.group({
+      Monto: [null],
+      Tarjeta: [null],
+      CVV:[null],
+      Venc:[null],
+      Titular:[null]
+    });
+  }
+
+  AgregarPedido(){
+    this.Accion = 'C';
+    var nuevoPed = new Pedido();
+    nuevoPed.Domicilio = this.FormPedido.value.Domicilio;
+    nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
+    nuevoPed.Comercio = this.FormPedido.value.Comercio;
+    this.Pedidos.push(nuevoPed);
+    this.FormCarrito.reset();
+  }
+
+  AgregarOtro(){
+    this.Accion ="N";
+    this.FormPedido.reset();
+  }
+
+  ProcederAPago(){
+    this.Accion = "P";
+    this.FormPago.reset();
+  }
+
+  SelecFormaPago(opcion){
+    this.Opcion = opcion;
+  }
+
+  Pagar(){
+    //WIP
   }
 
 }

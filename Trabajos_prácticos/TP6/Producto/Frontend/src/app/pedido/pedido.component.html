@@ -1,79 +1,251 @@
 <h3> <i class="fas fa-shopping-cart"></i> {{Titulo}}</h3>
-<form name="FormPedido" [formGroup]="FormPedido">
-    <div class="pedido-area">
-        
-            <div class="form-group row">
-                <label class="col-form-label col-sm-2 offset-sm-2">
-                  Tu Domicilio:
-                </label>
-                <div class="col-sm-4">
-                  <input
-                    id="inputDomicilio"
-                    class="form-control text-uppercase"
-                    name="Domicilio"
-                    formControlName="Domicilio"
-                  />
-                </div>
-            </div>
-            <i>&nbsp;</i>
-            <div class="form-group row">
-                <label class="col-form-label col-sm-2 offset-sm-2">
-                  Describi el producto:
-                </label>
-                <div class="col-sm-4">
-                  <input
-                    id="inputDescripcion"
-                    class="form-control text-uppercase"
-                    name="Descripcion"
-                    formControlName="Descripcion"
-                  />
-                </div>
-            </div>
-            
-            <div class="form-group row">
-                <i>&nbsp;</i>
-                <button id="btnFoto" type="button" class="btn btn-primary col-sm-2 offset-sm-2">
-                    <span class="fas fa-image"> </span> Añadir foto (opcional)
-                </button>
-                <i>&nbsp;</i>
-            </div>
-            <div class="form-group row">
-                <label class="col-form-label col-sm-2 offset-sm-2">
-                  Domicilio del comercio:
-                </label>
-                <div class="col-sm-4">
-                  <input
-                    id="inputComercio"
-                    class="form-control text-uppercase"
-                    name="Comercio"
-                    formControlName="Comercio"
-                  />
-                </div>
-            </div>
-            <i>&nbsp;</i>
-
-            <div class="form-group row">
-              <label class="col-form-label col-sm-2 offset-sm-2">
-                Entrega del Pedido:
-              </label>
-              <div class="col-sm-4">
-                <input type="datetime-local" id="FechaEntrega">
-              </div>
-              <div class="col-sm-4">
-                <input type="radio" id="html" name="fav_language" value="HTML">
-                <label class="col-form-label col-sm-4 offset-sm-1">
-                  Lo antes posible
-                </label>             
-              </div>
-          </div>
-        
-
-        <div class="row justify-content-center">
-            <i>&nbsp;</i>
-            <button type="button" class="btn btn-primary">
-                <span class="fas fa-plus"> </span> Agregar
-            </button>
-            &nbsp;
-        </div>
+<form name="FormPedido" [formGroup]="FormPedido" *ngIf="Accion == 'N'">
+  <i>&nbsp;</i>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Tu Domicilio:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputDomicilio"
+        class="form-control text-uppercase"
+        name="Domicilio"
+        formControlName="Domicilio"
+      />
     </div>
+  </div>
+  <i>&nbsp;</i>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Describi el producto:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputDescripcion"
+        class="form-control text-uppercase"
+        name="Descripcion"
+        formControlName="Descripcion"
+      />
+    </div>
+  </div>
+            
+  <div class="form-group row">
+    <i>&nbsp;</i>
+                <!--<button id="btnFoto" type="button" class="btn btn-primary col-sm-2 offset-sm-2">
+                    <span class="fas fa-image"> </span> Añadir foto (opcional)
+                </button>-->
+    <div class="col-sm-2 offset-sm-2">
+      <span class="col-form-label fas fa-image " style="color: #72EFDD;"> </span> 
+      <label id="lblFoto" class="col-form-label"> &nbsp;Añadir foto (opcional)</label>
+    </div>
+      <input type="file" class="col-sm-4" id="btnArchivo" accept="image/png, image/jpeg"/>
+
+      <i>&nbsp;</i>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+        Domicilio del comercio:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputComercio"
+        class="form-control text-uppercase"
+        name="Comercio"
+        formControlName="Comercio"
+      />
+    </div>
+  </div>
+  <i>&nbsp;</i>
+
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Entrega del Pedido:
+    </label>
+    <div class="col-sm-4">
+      <input type="datetime-local" id="FechaEntrega">
+    </div>
+    <div class="col-sm-4">
+      <input type="checkbox" id="html" name="fav_language" value="HTML">
+      &nbsp;
+      <label class="col-form-label">
+        Lo antes posible
+      </label>             
+    </div>
+  </div>
+        
+
+  <div class="row justify-content-center">
+    <i>&nbsp;</i>
+    <button type="button" class="btn btn-primary" (click)="AgregarPedido()">
+    <span class="fas fa-cart-plus"> </span> Agregar
+    </button>
+    &nbsp;
+  </div>
+  <i>&nbsp;</i>
 </form>
+
+<form id="FormCarrito" name="FormCarrito" [formGroup]="FormCarrito" *ngIf="Accion == 'C'">
+  <i>&nbsp;</i>
+  <div id="divTablaPedidos">
+    <table class="table table-bordered table-striped" style="border-color: #72EFDD; color: #72EFDD;">
+      <thead>
+        <tr>
+          <th class="text-center">Domicilio</th>
+          <th class="text-center">Descripcion</th>
+          <th class="text-center">Comercio</th>
+          <th class="text-center text-nowrap">Foto</th>
+          <th class="text-center text-nowrap">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of Pedidos" style="color: #72EFDD;"> 
+          <td class="text-right">{{item.Domicilio | uppercase}}</td>
+          <td class="text-right">{{item.Descripcion}}</td>
+          <td>{{item.Comercio | uppercase}}</td>
+          <td></td>
+          <td class="text-center text-nowrap">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              style="color: #72EFDD; border-color: #72EFDD;"
+              title="Consultar"
+              
+            >
+              <span class="fas fa-eye"></span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              style="color: #72EFDD; border-color: #72EFDD;"
+              title="Modificar"
+              
+            >
+              <span class="fas fa-pencil-alt"></span>
+            </button>
+                      <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              title="Eliminar"
+              
+            >
+              <span class="fas fa-times"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="row justify-content-center">
+      <i>&nbsp;</i>
+      <button id="btnOtro" type="button" class="btn btn-primary" (click)="AgregarOtro()">
+          <span class="fas fa-plus"> </span> Agregar otro producto
+      </button>
+      &nbsp;
+      <button id="btnOtro" type="button" class="btn btn-primary" (click)="ProcederAPago()">
+          <span class="fas fa-plus"> </span> Proceder al pago
+      </button>
+      &nbsp;
+    </div>
+  </div>
+  <i>&nbsp;</i>
+
+</form>
+
+<form name="FormPago" [formGroup]="FormPago" *ngIf="Accion == 'P'">
+  <i>&nbsp;</i>
+  <div class="form-group row">
+    <label class="col-form-label col-sm-3 offset-sm-1"> Selecciona la forma de pago</label>
+    <div class="col-form-label col-sm-1 offset-sm-1">
+      <input id="efectivo" type="radio" name="radio_forma_pago" (click)="SelecFormaPago('E')">
+      &nbsp;
+      <label class="col-sm-3 offset-sm-0"> Efectivo</label>
+    </div>
+    <div class="col-form-label col-sm-1 offset-sm-1">
+      <input id="tarjeta" type="radio" name="radio_forma_pago" (click)="SelecFormaPago('T')">
+      &nbsp;
+      <label class="col-sm-3 offset-sm-0"> Tarjeta</label>
+    </div>
+  </div>
+
+  <div class="form-group row" *ngIf="Opcion =='E'">
+    <label class="col-form-label col-sm-3 offset-sm-2">
+      Ingresa el monto con el que vas a pagar:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputMonto"
+        class="form-control text-uppercase"
+        name="Monto"
+        formControlName="Monto"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row" *ngIf="Opcion =='T'">
+    <span class="col-form-label fas fa-cc-visa " style="color: #72EFDD;"> </span> 
+    <label class="col-form-label col-sm-3 offset-sm-2">
+      Numero de Tarjeta:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputTarjeta"
+        class="form-control text-uppercase"
+        name="Tarjeta"
+        formControlName="Tarjeta"
+      />
+    </div>
+  </div>
+  <i>&nbsp;</i>
+
+  <div class="form-group row" *ngIf="Opcion =='T'">
+    <label class="col-form-label col-sm-3 offset-sm-2">
+      Nombre y apellido del titular:
+    </label>
+    <div class="col-sm-4">
+      <input
+        id="inputTitular"
+        class="form-control text-uppercase"
+        name="Titular"
+        formControlName="Titular"
+      />
+    </div>
+  </div>
+  <i>&nbsp;</i>
+  <div class="form-group row" *ngIf="Opcion =='T'">
+    <label class="col-form-label col-sm-1 offset-sm-2">
+      CVV:
+    </label>
+    <div class="col-sm-1">
+      <input
+        id="inputCVV"
+        class="form-control text-uppercase"
+        name="CVV"
+        formControlName="CVV"
+      />
+    </div>
+    <label class="col-form-label col-sm-2 offset-sm-2">
+      Fecha de vencimiento:
+    </label>
+    <div class="col-sm-1">
+      <input
+        id="inputVenc"
+        class="form-control text-uppercase"
+        name="Venc"
+        formControlName="Venc"
+      />
+    </div>
+  </div>
+  <i>&nbsp;</i>
+
+  <div class="row justify-content-center" *ngIf="Opcion != ''">
+    <i>&nbsp;</i>
+    <button type="button" class="btn btn-primary" (click)="Pagar()">
+        <span class="fas fa-money-bill" *ngIf="Opcion == 'E'"> </span>
+        <span class="fas fa-credit-card" *ngIf="Opcion == 'T'"> </span> Pagar
+    </button>
+    &nbsp;
+</div>
+<i>&nbsp;</i>
+</form>
+
