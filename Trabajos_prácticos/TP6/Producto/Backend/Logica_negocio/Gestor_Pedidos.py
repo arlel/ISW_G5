@@ -1,43 +1,46 @@
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta, time
 
-from Entidades import Pedido
+from Entidades import Pedido, Direccion
 
 
 class Gestor_pedidos:
     desc = None
     img = None
     com = None
-    dire = None
+    dire = Direccion.Direccion(None, None, None, None)
     efectivo = None
     monto = None
     fh = None
 
     def crear_pedido(self, json):
-        self.desc = json["descripcion"]
-        self.img = json["imagen"]
-        self.com = json["comercio"]
-        self.dire = json["direccion"]
-        self.efectivo = json["efectivo"]
-        self.monto = json["monto_total"]
-        self.fh = json["fecha_hora"]
+        print(json)
+        self.desc = json["Descripcion"]
+        self.img = json["Imagen"]
+        self.com = json["Comercio"]
+        self.dire = json["Domicilio"]
+        self.efectivo = json["Efectivo"]
+        self.monto = json["MontoEfectivo"]
+        self.fh = json["FechaHora"]
         # convertir el json a un datetime que lo tome bien, es decir separar
-        self.fh = datetime(self.fh[0:1])
+        self.fh = datetime(int(self.fh[0:4]), int(self.fh[5:7]), int(self.fh[8:10]), int(self.fh[11:13]),
+                           int(self.fh[14:16]))
+        print(self.fh)
         # validaciones
-
-        # si salio bien retorna un positivo, sino negativo
-        pedido = Pedido(self.desc, self.img, self.com, self.dire,
-                        self.efectivo, self.monto, self.fh)
-        return pedido.get_id()
+        if self.validar_desc() and self.validar_monto() \
+                and self.validar_fecha():
+            # si salio bien retorna un positivo, sino negativo
+            pedido = Pedido.Pedido(self.desc, self.img, self.com, self.dire,
+                                   self.efectivo, self.monto, self.fh)
+            return pedido.get_id()
+        return -1
 
     def validar_desc(self):
-        if self.desc.length < 5:
-            print("¡La descripción debe tener como mínimo 5 carácteres!")
-            return
-        elif self.desc.leghth > 240:
-            print("¡La descripción debe tener como máximo 240 carácteres!")
-            return
+        if len(self.desc) < 5:
+            # print("¡La descripción debe tener como mínimo 5 carácteres!")
+            return False
+        elif len(self.desc) > 240:
+            # print("¡La descripción debe tener como máximo 240 carácteres!")
+            return False
 
     def validar_imagen(self):
         return
@@ -48,37 +51,28 @@ class Gestor_pedidos:
     def validar_direccion(self):
         return
 
-    def validar_efectivo(self):
-
-        if self.efectivo:
-            return
-        else:
-            return
-
-# Valida que sea positivo el valor del monto, si es positivo, retorna true
+    # Valida que sea positivo el valor del monto, si es positivo, retorna true
     def validar_monto(self):
-        if self.monto >= 0:
-            return True
-        else:
-            return False
+        if self.efectivo:
+            if self.monto >= 0:
+                return True
+            else:
+                return False
+        return True
 
     def validar_fecha(self):
+        print(self.fh)
+        if self.fh is None:
+            return True
         now = datetime.now()
-        if self.fh <= now:
+        # si el pedido es para antes de ahora
+        if self.fh <= now + timedelta(minutes=59):
             return False
-
-        if now.date() == self.fh.date():
-            if now.time() <= self.fh.time():
-                return
-
-
-'''        
-        if self.fh.datetime <= now + timedelta(minutes=59) and\
-                self.fh.datetime.day == datetime.today():
-            print("El pedido debe ser entregado como mínimo dentro de 1 hora")
-            return
-        elif self.fh.datetime > now + timedelta(days=7):
-            print("El pedido debe ser entregado como máximo en una semana")
-            return
-'''
-
+        # si la fecha_y_hora de de entrega es mayor a 1 semana
+        if self.day > now + datetime(days=7):
+            return False
+        minimo = time(hour=8)
+        # maximo = time.max()
+        if self.fh.time() < minimo or self.fh.time != time(0):
+            return False
+        return True

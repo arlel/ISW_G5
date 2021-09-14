@@ -11,6 +11,8 @@ import { PedidoComponent } from './pedido/pedido.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GMapsComponent } from './g-maps/g-maps.component';
+import { PedidoService } from './services/pedido/pedido.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { GMapsComponent } from './g-maps/g-maps.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDUpJIfYIGj2XYFZsmqdyQygHStR0cPuuA',
@@ -35,7 +38,7 @@ import { GMapsComponent } from './g-maps/g-maps.component';
       { path: 'about-us', component: AboutUsComponent }
     ])
   ],
-  providers: [],
+  providers: [PedidoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

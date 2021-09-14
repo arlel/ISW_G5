@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert } from 'selenium-webdriver';
 import { Direccion } from '../models/direccion';
 import { Pedido } from '../models/pedido';
+import { PedidoService } from '../services/pedido/pedido.service';
 
 @Component({
   selector: 'app-pedido',
@@ -19,10 +20,12 @@ export class PedidoComponent implements OnInit {
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
+  FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
-  Ciudad = ""
   Vencimiento = ""
   FechaEntrega = "";
+  Ciudad = this.Ciudades[0];
+  Foto:File = null;
 
 
 
@@ -45,7 +48,8 @@ export class PedidoComponent implements OnInit {
   // Direccion de ENTREGA en forma textual*
     // * forma textual = calle, numero, ciudad y referencia opcional en formato texto 
   constructor(
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private pedidoService: PedidoService
   ) {}
 
   ngOnInit(): void {
@@ -109,14 +113,30 @@ export class PedidoComponent implements OnInit {
 
 
     this.Accion = 'C';
+    
+    this.domicilio.Ciudad = this.Ciudad;
     this.domicilio.Calle = this.FormPedido.value.CalleDomicilio;
     this.domicilio.Numero = this.FormPedido.value.NumeroDomicilio;
     var nuevoPed = new Pedido();
     nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
+    this.domicilio.Referencia = this.FormPedido.value.ReferenciaDomicilio;
+    
+    this.direccion.Ciudad = this.Ciudad;
+    if(this.FormaIngresoDomicilio == "M"){
+      this.direccion.Calle = this.FormPedido.value.CalleDomicilio;
+      this.direccion.Numero = this.FormPedido.value.NumeroDomicilio;
+      this.direccion.Referencia = this.FormPedido.value.ReferenciaDireccion;
+    }
+    
+    var nuevoPed = new Pedido();
+    nuevoPed.Domicilio = this.domicilio;
+    nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
+    nuevoPed.Comercio = this.direccion;
     this.Pedidos.push(nuevoPed);
     this.FormCarrito.reset();
     this.submitted = true;
     this.FormPedido.markAsUntouched(); 
+    console.log(nuevoPed);
   }
 
   AgregarOtro(){
@@ -128,9 +148,44 @@ export class PedidoComponent implements OnInit {
   }
 
   ProcederAPago(){
+    if (this.FormPedido.invalid) {
+      
+      
+      alert("No puede proceder al carrito debido a que existen errores")
+      return;
+    }
+    this.Accion = 'C';
+    
+    this.domicilio.Ciudad = this.Ciudad;
+    this.domicilio.Calle = this.FormPedido.value.CalleDomicilio;
+    this.domicilio.Numero = this.FormPedido.value.NumeroDomicilio;
+    this.domicilio.Referencia = this.FormPedido.value.ReferenciaDomicilio;
+    
+    this.direccion.Ciudad = this.Ciudad;
+    if(this.FormaIngresoDomicilio == "M"){
+      this.direccion.Calle = this.FormPedido.value.CalleDireccion;
+      this.direccion.Numero = this.FormPedido.value.NumeroDireccion;
+      this.direccion.Referencia = this.FormPedido.value.ReferenciaDireccion;
+    }
+    
+    var nuevoPed = new Pedido();
+    nuevoPed.Domicilio = this.domicilio;
+    nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
+    nuevoPed.Comercio = this.direccion;
+    nuevoPed.Imagen = this.Foto;
+    if(this.Entrega == "I"){
+      nuevoPed.FechaHora = null;
+    }
+    else{
+      nuevoPed.FechaHora = (<HTMLInputElement>document.getElementById("FechaEntrega")).value;
+    }
+    this.Pedidos.push(nuevoPed);
     this.Accion = "P";
     this.FormPago.reset();
     this.FormPago.markAsUntouched();
+    this.submitted = true;
+    this.FormPedido.markAsUntouched(); 
+    console.log(nuevoPed);
   }
 
   SelecFormaPago(opcion){
@@ -163,11 +218,19 @@ export class PedidoComponent implements OnInit {
         alert("No puede proceder al pago debido a que existen errores")
         return;
       }
+      this.Pedidos[0].MontoEfectivo = this.FormPagoEfectivo.value.Monto;
       this.FormPagoEfectivo.reset();
       this.submittedPago = true;
       this.FormPagoEfectivo.markAsUntouched();
-      alert("El pedido se ha realizado con exito");
-      this.Volver();
+      this.Pedidos[0].Efectivo = true;
+      this.pedidoService.post(this.Pedidos[0]).subscribe((res:any) => {
+        alert("El pedido se ha realizado con exito");
+      
+      
+        this.Volver();
+      })
+
+
     }
     PagarTarjeta(){
       if (this.FormPagoTarjeta.invalid) {
@@ -182,6 +245,14 @@ export class PedidoComponent implements OnInit {
     this.submittedPago = true;
     this.FormPagoTarjeta.markAsUntouched();
     
+    this.Pedidos[0].Efectivo = false;
+    this.Pedidos[0].MontoEfectivo = null;
+    this.pedidoService.post(this.Pedidos[0]).subscribe((res:any) => {
+      alert("El pedido se ha realizado con exito y el pago se ha procesado");
+    
+    
+      this.Volver();
+    })
   }
 
   Volver(){
@@ -205,6 +276,8 @@ export class PedidoComponent implements OnInit {
     this.Opcion = "";
     this.Entrega = "";
     this.FormaIngresoDomicilio = "";
+    this.Ciudad = this.Ciudades[0];
+    this.Foto =null;
   }
 
 
@@ -217,6 +290,22 @@ export class PedidoComponent implements OnInit {
 
   selectCiudad(){
     this.Ciudad = (<HTMLInputElement>document.getElementById("selectCiudad")).value;
+    console.log(this.Ciudad)
+  }
+
+  MostrarFoto(){
+    var input = (<HTMLInputElement>document.getElementById("inputFoto"));
+    this.Foto = (<HTMLInputElement>document.getElementById("inputFoto")).files[0];
+    var imagen = <HTMLImageElement>document.getElementById("fotoSelec");
+    if(this.Foto.size > 2097152 * 2.5){
+      alert("La imagen no debe pesar mas de 5MB");
+      input.value = "";
+      return;
+   };
+    imagen.src = URL.createObjectURL(this.Foto);
+  
+    imagen.style.display ="block";
+    
   }
 
   ValidarFechaTarjeta(){

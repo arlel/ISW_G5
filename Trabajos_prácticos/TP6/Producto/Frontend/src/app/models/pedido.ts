@@ -7,5 +7,5 @@ export class Pedido{
     Domicilio: Direccion;
     Efectivo: boolean;
     MontoEfectivo: number;
-    FechaHora: Date;
+    FechaHora: string;
 }

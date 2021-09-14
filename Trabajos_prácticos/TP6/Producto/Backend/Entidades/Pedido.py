@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Pedido:
-    id = -1
+    id = 1
     descripcion = ''
     imagen = ''
     # direccion del comercio? aca crearia una clase Comercion con direccion y nombre

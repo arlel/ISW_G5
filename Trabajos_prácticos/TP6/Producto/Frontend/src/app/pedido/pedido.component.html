@@ -126,7 +126,9 @@ Dato texto, 5 a 240 caracteres.
       <span class="col-form-label fas fa-image " style="color: #72EFDD;"> </span> 
       <label id="lblFoto" class="col-form-label"> &nbsp;Añadir foto (opcional)</label>
     </div>
-      <input type="file" class="col-sm-4" id="btnArchivo" accept="image/png, image/jpeg"/>
+      <input type="file" class="col-sm-4" id="inputFoto" accept="image/png, image/jpeg" (change)="MostrarFoto()"/>
+
+      <img id="fotoSelec" style="display: none;width:125px;height:125px;">
 
       <i>&nbsp;</i>
   </div>
@@ -252,7 +254,7 @@ Dato texto, 5 a 240 caracteres.
 
   <div class="row justify-content-center">
     <i>&nbsp;</i>
-    <button type="button" class="btn btn-primary" (click)="AgregarPedido()">
+    <button type="button" class="btn btn-primary" (click)="ProcederAPago()">
     <span class="fas fa-cart-plus"> </span> Agregar
     </button>
     &nbsp;
@@ -275,9 +277,9 @@ Dato texto, 5 a 240 caracteres.
       </thead>
       <tbody>
         <tr *ngFor="let item of Pedidos" style="color: #72EFDD;"> 
-          <td class="text-right">{{item.Domicilio | uppercase}}</td>
+          <td class="text-right">{{item.Domicilio.Calle | uppercase}}</td>
           <td class="text-right">{{item.Descripcion}}</td>
-          <td>{{item.Comercio | uppercase}}</td>
+          <td>{{item.Comercio.Calle | uppercase}}</td>
           <td></td>
           <td class="text-center text-nowrap">
             <button
