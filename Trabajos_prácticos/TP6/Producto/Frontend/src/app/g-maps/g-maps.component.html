@@ -1,6 +1,6 @@
 <div class="container">
     <div class="form-group">
-        <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+        <input type="text" value="{{address}}" class="form-control" (keydown.enter)="$event.preventDefault()"
             placeholder="Buscar dirección..." autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
             #search>
     </div>
