@@ -61,7 +61,7 @@ class Gestor_pedidos:
         return True
 
     def validar_fecha(self):
-        print(self.fh)
+        # print(self.fh)
         if self.fh is None:
             return True
         now = datetime.now()
@@ -69,10 +69,10 @@ class Gestor_pedidos:
         if self.fh <= now + timedelta(minutes=59):
             return False
         # si la fecha_y_hora de de entrega es mayor a 1 semana
-        if self.day > now + datetime(days=7):
+        if self.fh > now + timedelta(days=7):
             return False
         minimo = time(hour=8)
         # maximo = time.max()
-        if self.fh.time() < minimo or self.fh.time != time(0):
+        if self.fh.time() < minimo and self.fh.time() != time(0):
             return False
         return True
