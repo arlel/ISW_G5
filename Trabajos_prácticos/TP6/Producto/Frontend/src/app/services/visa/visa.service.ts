@@ -10,7 +10,7 @@ export class VisaService {
 
   constructor() { }
 
-  validate(datos: DatosTarjeta): Observable<boolean>{
+  validate(datos: DatosTarjeta): Observable<boolean> {
     //Validación tarjeta Visa (inicia con "4")
     let ok = datos.Numero.toString()[0] == "4"; 
     return of(ok);

@@ -95,22 +95,22 @@ export class GMapsComponent implements OnInit {
     });
   }
 
-  createAdress(place){
+  createAdress(place) {
     let cities = ["cordoba", "córdoba", "carlos paz", "villa carlos paz", "río primero", "rio primero"];
     let street = place.address_components[1].short_name;
-          let number = place.address_components[0].long_name;
-          let city = "Unknown";
-          
-          for(let i=2; i <= 5; i++){
-            let c = place.address_components[i].short_name;
-            console.log(c.toLowerCase());
-            if(cities.includes(c.toLowerCase())){
-              city = c;
-              break;
-            }
-          } 
-          let direccion: Direccion = {Calle: street, Numero: +number, Ciudad: city, Referencia: ""};
-          this.addrChange.emit(direccion);
+    let number = place.address_components[0].long_name;
+    let city = "Unknown";
+    
+    for(let i=2; i <= 5; i++){
+      let c = place.address_components[i].short_name;
+      console.log(c.toLowerCase());
+      if (cities.includes(c.toLowerCase())) {
+        city = c;
+        break;
+      }
+    } 
+    let direccion: Direccion = {Calle: street, Numero: +number, Ciudad: city, Referencia: ""};
+    this.addrChange.emit(direccion);
   }
 
 }
