@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido } from 'src/app/models/pedido';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PedidoService {
   resourceUrl: string = "url";
 
