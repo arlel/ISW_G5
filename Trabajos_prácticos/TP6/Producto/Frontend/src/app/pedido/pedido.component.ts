@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert } from 'selenium-webdriver';
@@ -18,9 +19,11 @@ export class PedidoComponent implements OnInit {
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
-  FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
+  FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime (F) o elegir que sea inmediata (I)
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
   Ciudad = ""
+  Vencimiento = ""
+  FechaEntrega = "";
 
 
 
@@ -85,12 +88,29 @@ export class PedidoComponent implements OnInit {
     this.LoAntesPosible = !this.LoAntesPosible;
   }
   AgregarPedido(){
-    if (this.FormPedido.invalid) {
-      
-      
+    
+
+    if (this.FormPedido.invalid) {           
       alert("No puede proceder al carrito debido a que existen errores")
       return;
     }
+
+    if(this.Entrega == "F")
+    {
+      if(!this.ValidarFechaEntrega())
+      {
+        alert("La fecha ingresada no es valida. Debe ser como minimo una hora luego de la hora actual y como maximo una semana despues.")
+        return;
+      }
+
+      if(!this.ValidarHoraEntrega())
+      {
+        alert("La fecha ingresada no es valida. Los pedidos se entregan entre las 8 y las 00 horas.")
+        return;
+      }
+    }
+
+
     this.Accion = 'C';
     this.domicilio.Calle = this.FormPedido.value.CalleDomicilio;
     this.domicilio.Numero = this.FormPedido.value.NumeroDomicilio;
@@ -160,6 +180,10 @@ export class PedidoComponent implements OnInit {
       alert("No puede proceder al pago debido a que existen errores")
       return;
     }
+    if(!this.ValidarFechaTarjeta()){
+      alert("El vencimiento de la tarjeta no es valido")
+      return;
+    }
     this.FormPagoTarjeta.reset();
     this.submittedPago = true;
     this.FormPagoTarjeta.markAsUntouched();
@@ -200,5 +224,132 @@ export class PedidoComponent implements OnInit {
 
   selectCiudad(){
     this.Ciudad = (<HTMLInputElement>document.getElementById("selectCiudad")).value;
+  }
+
+  ValidarFechaTarjeta(){
+
+    var fechaActual = formatDate(new Date(), "MM/yyyy", "en-US")
+
+    var vectorVenc = this.Vencimiento.split("/", 2)
+    var vectorActual = fechaActual.split("/", 2)
+
+    var mesVenc = vectorVenc[0]
+    var mesActual = vectorActual[0]
+
+    var añoVenc = vectorVenc[1]
+    var añoActual = vectorActual[1]
+
+    if(añoVenc > añoActual) return true
+    if (añoVenc == añoActual)
+    {
+      if(mesVenc >= mesActual) return true
+    }
+    return false  
+
+  }
+
+  ValidarFechaEntrega()
+  {
+    var fechaActual = formatDate(new Date(), "dd/MM/yyyy", "en-US")    
+    var vectorFechaActual = fechaActual.split("/", 3)
+
+    this.FechaEntrega = (<HTMLInputElement>document.getElementById("FechaEntrega")).value;
+    var vectorHoraEntregaIntermedio = this.FechaEntrega.split("T", 2)
+    var vectorFechaEntrega = vectorHoraEntregaIntermedio[0].split("-", 3)
+
+    var diaEntrega: number =  +vectorFechaEntrega[2]
+    var mesEntrega: number =  +vectorFechaEntrega[1]
+    var añoEntrega: number =  +vectorFechaEntrega[0]
+
+    var diaActual: number = +vectorFechaActual[0]
+    var mesActual: number =  +vectorFechaActual[1]
+    var añoActual: number =  +vectorFechaActual[2]
+
+
+   // alert(diaEntrega.toString() + mesEntrega.toString() + añoEntrega.toString() +"   " +  diaActual + mesActual + añoActual)
+
+    if(añoEntrega - añoActual > 0) return false
+
+    if(mesEntrega == 1 && mesActual == 12) // caso enero diciembre que vuelven a contar los dias
+    {
+      if(diaEntrega + 31 - diaActual > 7) return false
+      else return true
+    }
+
+    if(mesEntrega - mesActual == 1)
+    {
+        if(mesEntrega == 1 || mesEntrega == 3 || mesEntrega == 5 || mesEntrega == 7 || mesEntrega == 8 || mesEntrega == 10 || mesEntrega == 12)
+        {
+          if(diaEntrega + 31 - diaActual > 7) return false // caso que sea dia 27 y la entrega sea el 1 por ejemplo
+          else return true
+         }
+
+        if (mesEntrega == 2)
+        {
+          if(diaEntrega + 28 - diaActual > 7) return false // No se completa año bisiesto 
+          else return true
+        }
+
+        else
+        {
+          if(diaEntrega + 30 - diaActual > 7) return false
+          else return true
+        }
+    }
+
+    if (mesEntrega == mesActual)
+    {
+      if(diaEntrega - diaActual > 7) return false
+      if(diaEntrega - diaActual >= 0 && diaEntrega - diaActual <= 7) return true
+      return false
+    }
+
+  }
+  ValidarHoraEntrega()
+  {
+
+    this.FechaEntrega = (<HTMLInputElement>document.getElementById("FechaEntrega")).value;
+
+    var fechaActual = formatDate(new Date(), "HH:mm:ss", "en-US")
+    var vectorFechaActual = fechaActual.split(":", 3)
+
+    var fechaActualCompleta = formatDate(new Date(), "dd/MM/yyyy", "en-US")    
+    var vectorFechaActualCompleta = fechaActualCompleta.split("/", 3)
+    
+    var vectorHoraEntregaIntermedio = this.FechaEntrega.split("T", 2)
+    var vectorFechaEntrega = vectorHoraEntregaIntermedio[0].toString().split("-", 3)
+    var vectorHoraEntrega = vectorHoraEntregaIntermedio[1].split(":", 2) 
+
+
+    var horaEntrega: number =  +vectorHoraEntrega[0]
+    var minutosEntrega: number =  +vectorHoraEntrega[1]
+    var diaEntrega: number = +vectorFechaEntrega[2]
+
+    var horaActual: number = +vectorFechaActual[0]
+    var minutosActual: number =  +vectorFechaActual[1]
+    var diaActual: number = +vectorFechaActualCompleta[0]
+
+    
+    if(horaEntrega < 8) return false // Se trabaja de 8 a 00
+
+
+    alert(horaEntrega.toString() + horaActual.toString())
+    if(diaEntrega - diaActual == 0)
+    {
+
+      if(horaEntrega - horaActual < 1) return false;
+
+      if(horaEntrega - horaActual > 1) return true;
+
+      if(horaEntrega - horaActual == 1)
+      {
+        if(minutosEntrega + 60 - minutosActual < 60) return false // MENOS DE UNA HORA
+        else return true // mas de una hora de diferencia
+      }
+
+      
+    }
+    else return true // Si tienen mas de un dia de diferencia y no es un horario entre 00 y 8 pasa
+
   }
 }

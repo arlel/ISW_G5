@@ -472,6 +472,7 @@ Dato texto, 5 a 240 caracteres.
         name="Venc"
         placeholder="MM/AAAA"
         formControlName="Venc"
+        [(ngModel)]="Vencimiento"
         [ngClass]="{'is-invalid': (FormPagoTarjeta.controls.Venc.touched || submittedPago)  
           && FormPagoTarjeta.controls.Venc.errors}"
       />
