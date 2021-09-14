@@ -19,7 +19,6 @@ export class PedidoComponent implements OnInit {
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
-  FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime (F) o elegir que sea inmediata (I)
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
   Ciudad = ""
   Vencimiento = ""
@@ -88,9 +87,7 @@ export class PedidoComponent implements OnInit {
     this.LoAntesPosible = !this.LoAntesPosible;
   }
   AgregarPedido(){
-    
-
-    if (this.FormPedido.invalid) {           
+      if (this.FormPedido.invalid) {           
       alert("No puede proceder al carrito debido a que existen errores")
       return;
     }
@@ -114,11 +111,8 @@ export class PedidoComponent implements OnInit {
     this.Accion = 'C';
     this.domicilio.Calle = this.FormPedido.value.CalleDomicilio;
     this.domicilio.Numero = this.FormPedido.value.NumeroDomicilio;
-    this.domicilio.Referencia = this.FormPedido.value.CalleDomicilio;
     var nuevoPed = new Pedido();
-    nuevoPed.Domicilio = this.FormPedido.value.Domicilio;
     nuevoPed.Descripcion = this.FormPedido.value.Descripcion;
-    nuevoPed.Comercio = this.FormPedido.value.Comercio;
     this.Pedidos.push(nuevoPed);
     this.FormCarrito.reset();
     this.submitted = true;
@@ -187,8 +181,7 @@ export class PedidoComponent implements OnInit {
     this.FormPagoTarjeta.reset();
     this.submittedPago = true;
     this.FormPagoTarjeta.markAsUntouched();
-    alert("El pedido se ha realizado con exito y el pago se ha procesado")
-    this.Volver();
+    
   }
 
   Volver(){
