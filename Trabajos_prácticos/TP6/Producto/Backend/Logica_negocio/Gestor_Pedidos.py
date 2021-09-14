@@ -14,15 +14,17 @@ class Gestor_pedidos:
 
     def crear_pedido(self, json):
         print(json)
-        self.desc = json["descripcion"]
-        self.img = json["imagen"]
-        self.com = json["comercio"]
-        self.dire = json["direccion"]
-        self.efectivo = json["efectivo"]
-        self.monto = json["monto_total"]
-        self.fh = json["fecha_hora"]
+        self.desc = json["Descripcion"]
+        self.img = json["Imagen"]
+        self.com = json["Comercio"]
+        self.dire = json["Domicilio"]
+        self.efectivo = json["Efectivo"]
+        self.monto = json["MontoEfectivo"]
+        self.fh = json["FechaHora"]
         # convertir el json a un datetime que lo tome bien, es decir separar
-        # self.fh = datetime(self.fh[0:1])
+        self.fh = datetime(int(self.fh[0:4]), int(self.fh[5:7]), int(self.fh[8:10]), int(self.fh[11:13]),
+                           int(self.fh[14:16]))
+        print(self.fh)
         # validaciones
         if self.validar_desc() and self.validar_monto() \
                 and self.validar_fecha():
@@ -33,10 +35,10 @@ class Gestor_pedidos:
         return -1
 
     def validar_desc(self):
-        if self.desc.length < 5:
+        if len(self.desc) < 5:
             # print("¡La descripción debe tener como mínimo 5 carácteres!")
             return False
-        elif self.desc.leghth > 240:
+        elif len(self.desc) > 240:
             # print("¡La descripción debe tener como máximo 240 carácteres!")
             return False
 
@@ -49,24 +51,25 @@ class Gestor_pedidos:
     def validar_direccion(self):
         return
 
-    def validar_efectivo(self):
-        return
-
     # Valida que sea positivo el valor del monto, si es positivo, retorna true
     def validar_monto(self):
-        if self.monto >= 0:
-            return True
-        else:
-            return False
+        if self.efectivo:
+            if self.monto >= 0:
+                return True
+            else:
+                return False
+        return True
 
     def validar_fecha(self):
         print(self.fh)
+        if self.fh is None:
+            return True
         now = datetime.now()
         # si el pedido es para antes de ahora
         if self.fh <= now + timedelta(minutes=59):
             return False
         # si la fecha_y_hora de de entrega es mayor a 1 semana
-        if self.fh > now + timedelta(days=7):
+        if self.day > now + datetime(days=7):
             return False
         minimo = time(hour=8)
         # maximo = time.max()

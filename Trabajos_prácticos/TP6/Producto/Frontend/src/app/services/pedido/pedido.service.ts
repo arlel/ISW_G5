@@ -5,7 +5,7 @@ import { Pedido } from 'src/app/models/pedido';
 
 @Injectable()
 export class PedidoService {
-  resourceUrl: string = "url";
+  resourceUrl: string = "http://127.0.0.1:5000/pedidos/RealizarPedido";
 
   constructor(private httpClient: HttpClient) { }
 
