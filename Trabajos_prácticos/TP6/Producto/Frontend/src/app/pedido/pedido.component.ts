@@ -22,7 +22,7 @@ export class PedidoComponent implements OnInit {
   FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
   Ciudad = this.Ciudades[0];
-  Foto:File
+  Foto:File = null;
 
 
 
@@ -143,8 +143,8 @@ export class PedidoComponent implements OnInit {
     
     this.direccion.Ciudad = this.Ciudad;
     if(this.FormaIngresoDomicilio == "M"){
-      this.direccion.Calle = this.FormPedido.value.CalleDomicilio;
-      this.direccion.Numero = this.FormPedido.value.NumeroDomicilio;
+      this.direccion.Calle = this.FormPedido.value.CalleDireccion;
+      this.direccion.Numero = this.FormPedido.value.NumeroDireccion;
       this.direccion.Referencia = this.FormPedido.value.ReferenciaDireccion;
     }
     
@@ -221,6 +221,7 @@ export class PedidoComponent implements OnInit {
     this.submittedPago = true;
     this.FormPagoTarjeta.markAsUntouched();
     this.Pedidos[0].Efectivo = false;
+    this.Pedidos[0].MontoEfectivo = null;
     this.pedidoService.post(this.Pedidos[0]).subscribe((res:any) => {
       alert("El pedido se ha realizado con exito y el pago se ha procesado");
     
