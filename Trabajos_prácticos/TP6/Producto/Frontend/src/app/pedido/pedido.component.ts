@@ -19,7 +19,7 @@ export class PedidoComponent implements OnInit {
   Pedidos = [];
   Accion = "N" //la accion inicial es agregar un nuevo pedido
   Opcion = "";
-  Entrega = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
+  Entrega = ""; // Para elegir la fecha con un datetime (F) o elegir que sea inmediata (I)
   FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
   Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
   Vencimiento = ""
@@ -91,6 +91,7 @@ export class PedidoComponent implements OnInit {
     this.LoAntesPosible = !this.LoAntesPosible;
   }
   AgregarPedido(){
+
       if (this.FormPedido.invalid) {           
       alert("No puede proceder al carrito debido a que existen errores")
       return;
@@ -148,11 +149,24 @@ export class PedidoComponent implements OnInit {
   }
 
   ProcederAPago(){
-    if (this.FormPedido.invalid) {
-      
-      
+    if (this.FormPedido.invalid) {       
       alert("No puede proceder al carrito debido a que existen errores")
       return;
+    }
+
+    if(this.Entrega == "F")
+    {
+      if(!this.ValidarFechaEntrega())
+      {
+        alert("La fecha ingresada no es valida. Debe ser como minimo una hora luego de la hora actual y como maximo una semana despues.")
+        return;
+      }
+
+      if(!this.ValidarHoraEntrega())
+      {
+        alert("La fecha ingresada no es valida. Los pedidos se entregan entre las 8 y las 00 horas.")
+        return;
+      }
     }
     this.Accion = 'C';
     
@@ -248,11 +262,10 @@ export class PedidoComponent implements OnInit {
     this.Pedidos[0].Efectivo = false;
     this.Pedidos[0].MontoEfectivo = null;
     this.pedidoService.post(this.Pedidos[0]).subscribe((res:any) => {
-      alert("El pedido se ha realizado con exito y el pago se ha procesado");
-    
-    
-      this.Volver();
+      alert("El pedido se ha realizado con exito y el pago se ha procesado");    
     })
+    this.Volver();
+
   }
 
   Volver(){
@@ -278,6 +291,7 @@ export class PedidoComponent implements OnInit {
     this.FormaIngresoDomicilio = "";
     this.Ciudad = this.Ciudades[0];
     this.Foto =null;
+    this.FechaEntrega="";
   }
 
 
@@ -415,7 +429,6 @@ export class PedidoComponent implements OnInit {
     if(horaEntrega < 8) return false // Se trabaja de 8 a 00
 
 
-    alert(horaEntrega.toString() + horaActual.toString())
     if(diaEntrega - diaActual == 0)
     {
 
