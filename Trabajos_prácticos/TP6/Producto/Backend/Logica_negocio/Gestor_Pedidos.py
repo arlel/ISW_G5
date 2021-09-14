@@ -22,8 +22,9 @@ class Gestor_pedidos:
         self.monto = json["MontoEfectivo"]
         self.fh = json["FechaHora"]
         # convertir el json a un datetime que lo tome bien, es decir separar
-        self.fh = datetime(int(self.fh[0:4]), int(self.fh[5:7]), int(self.fh[8:10]), int(self.fh[11:13]),
-                           int(self.fh[14:16]))
+        if not (self.fh is None):
+            self.fh = datetime(int(self.fh[0:4]), int(self.fh[5:7]), int(self.fh[8:10]), int(self.fh[11:13]),
+                               int(self.fh[14:16]))
         print(self.fh)
         # validaciones
         if self.validar_desc() and self.validar_monto() \

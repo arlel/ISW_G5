@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 import { Alert } from 'selenium-webdriver';
 import { Direccion } from '../models/direccion';
 import { Pedido } from '../models/pedido';
@@ -21,11 +22,12 @@ export class PedidoComponent implements OnInit {
   Opcion = "";
   Entrega = ""; // Para elegir la fecha con un datetime (F) o elegir que sea inmediata (I)
   FormaIngresoDomicilio = ""; // Para elegir la fecha con un datetime o elegir que sea inmediata
-  Ciudades = ["Cordoba", "Carlos Paz", "Rio Primero"];
+  Ciudades = ["Córdoba", "Villa Carlos Paz", "Río Primero"];
   Vencimiento = ""
   FechaEntrega = "";
   Ciudad = this.Ciudades[0];
   Foto:File = null;
+  ciudadMaps = null;
 
 
 
@@ -167,6 +169,11 @@ export class PedidoComponent implements OnInit {
         alert("La fecha ingresada no es valida. Los pedidos se entregan entre las 8 y las 00 horas.")
         return;
       }
+
+      if(!this.ValidarCiudad()){
+        alert("Debe seleccionar un local dentro de la misma ciudad de su domicilio");
+        return;
+      }
     }
     this.Accion = 'C';
     
@@ -295,11 +302,12 @@ export class PedidoComponent implements OnInit {
   }
 
 
-  setDireccion($event){
-    this.direccion = $event
+  setDireccion(event){
+    this.direccion = event;
     this.FormPedido.controls['CalleComercio'].setValue(this.direccion.Calle);
     this.FormPedido.controls['NumeroComercio'].setValue(this.direccion.Numero);
     this.FormPedido.controls['ReferenciaComercio'].setValue(this.direccion.Referencia);
+    this.ciudadMaps = event.Ciudad;
   }
 
   selectCiudad(){
@@ -446,5 +454,15 @@ export class PedidoComponent implements OnInit {
     }
     else return true // Si tienen mas de un dia de diferencia y no es un horario entre 00 y 8 pasa
 
+  }
+
+  ValidarCiudad(){
+    if(this.FormaIngresoDomicilio == "M"){
+     return true; // Si se selecciono carga manual no se validara
+    }
+    if(this.ciudadMaps == this.Ciudad){
+      return true; // Si no se selecciono carga manual, se procede a valuar que sean iguales las ciudades
+    }
+    return false;
   }
 }
